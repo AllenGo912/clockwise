@@ -24,6 +24,8 @@ CWDateTime cwDateTime;
 
 bool autoBrightEnabled;
 long autoBrightMillis = 0;
+long timeControlMillis = 0;
+
 uint8_t currentBrightSlot = -1;
 
 void displaySetup(bool swapBlueGreen, uint8_t displayBright, uint8_t displayRotation)
@@ -96,6 +98,34 @@ void automaticBrightControl()
   }
 }
 
+void automaticTimeControl()
+{
+  if (!ClockwiseParams::getInstance()->enableTimeControl) return;
+
+  if (millis() - timeControlMillis > 3000) // 每3秒检查一次
+  {
+    uint8_t hourNow = clockface->getCurrentHour();
+    uint8_t hourFrom = ClockwiseParams::getInstance()->activeHourStart;
+    uint8_t hourTo   = ClockwiseParams::getInstance()->activeHourEnd;
+
+    bool inTimeRange = (hourFrom < hourTo)
+        ? (hourNow >= hourFrom && hourNow < hourTo)
+        : (hourNow >= hourFrom || hourNow < hourTo); // 跨午夜
+
+    uint8_t targetBrightness = inTimeRange
+        ? ClockwiseParams::getInstance()->displayBright
+        : ClockwiseParams::getInstance()->nightBright;
+
+    if (abs(currentBrightSlot - targetBrightness) >= 2 || targetBrightness == 0) {
+      dma_display->setBrightness8(targetBrightness);
+      currentBrightSlot = targetBrightness;
+    }
+
+    timeControlMillis = millis();
+  }
+}
+
+
 void setup()
 {
   Serial.begin(115200);
@@ -143,4 +173,5 @@ void loop()
   }
 
   automaticBrightControl();
+  automaticTimeControl();
 }

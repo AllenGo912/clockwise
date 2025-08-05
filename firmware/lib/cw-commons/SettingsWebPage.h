@@ -143,6 +143,30 @@ const char SETTINGS_PAGE[] PROGMEM = R""""(
           icon: "fa-rotate-right",
           save: "updatePreference('displayRotation', rotation.value)",
           property: "displayRotation"
+        },
+        {
+          title: "Enable Time Control",
+          description: "Toggle whether the LED clock should follow a time-based schedule for display. When enabled, the display will turn on and off based on the set start and end times.",
+          formInput: "<input class='w3-check' type='checkbox' id='enableTimeControl' " + (settings.enabletimecontrol == '1' ? "checked" : "") + "><label for='enableTimeControl'> Enable</label>",
+          icon: "fa-cog",
+          save: "updatePreference('enableTimeControl', Number(enableTimeControl.checked)",
+          property: "enableTimeControl"
+        },
+        {
+          title: "Display Start Time (Hour)",
+          description: "Set the hour when the LED clock should begin normal display. Value must be between 0 and 23 (24-hour format). For example, set to 6 for 6:00 AM.",
+          formInput: "<input id='activeHourStart' class='w3-input w3-light-grey' name='activeHourStart' type='number' min='0' max='23' value='" + settings.activehourstart + "'>",
+          icon: "fa-sun-o",
+          save: "updatePreference('activeHourStart', activeHourStart.value)",
+          property: "activeHourStart"
+        },
+        {
+          title: "Display End Time (Hour)",
+          description: "Set the hour when the LED clock should stop normal display. Value must be between 0 and 23 (24-hour format). For example, set to 18 for 6:00 PM.",
+          formInput: "<input id='activeHourEnd' class='w3-input w3-light-grey' name='activeHourEnd' type='number' min='0' max='23' value='" + settings.activehourend + "'>",
+          icon: "fa-moon-o",
+          save: "updatePreference('activeHourEnd', activeHourEnd.value)",
+          property: "activeHourEnd"
         }
       ];
 
