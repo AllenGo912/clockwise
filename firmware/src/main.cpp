@@ -30,17 +30,35 @@ void displaySetup(bool swapBlueGreen, uint8_t displayBright, uint8_t displayRota
 {
   HUB75_I2S_CFG mxconfig(64, 64, 1);
 
+  // 自定义引脚修改
+  mxconfig.gpio.r1 = 32;
+  mxconfig.gpio.b1 = 33;
+  mxconfig.gpio.r2 = 25;
+  mxconfig.gpio.b2 = 26;
+  mxconfig.gpio.a = 27;
+  mxconfig.gpio.c = 14;
+  mxconfig.gpio.clk = 12;
+  mxconfig.gpio.oe = 13;
+
+  mxconfig.gpio.g1 = 22;
+  //mxconfig.gpio.oe=21;
+  mxconfig.gpio.g2 = 19;
+  mxconfig.gpio.e = 18;
+  mxconfig.gpio.b = 5;
+  mxconfig.gpio.d = 4;
+  mxconfig.gpio.lat = 15;
+
   if (swapBlueGreen)
   {
     // Swap Blue and Green pins because the panel is RBG instead of RGB.
-    mxconfig.gpio.b1 = 26;
-    mxconfig.gpio.b2 = 12;
-    mxconfig.gpio.g1 = 27;
-    mxconfig.gpio.g2 = 13;
+    mxconfig.gpio.b1 = 22;
+    mxconfig.gpio.b2 = 19;
+    mxconfig.gpio.g1 = 33;
+    mxconfig.gpio.g2 = 26;
   }
 
-  mxconfig.gpio.e = 18;
-  mxconfig.clkphase = false;
+  // mxconfig.gpio.e = 18;
+  // mxconfig.clkphase = false;
 
   // Display Setup
   dma_display = new MatrixPanel_I2S_DMA(mxconfig);
