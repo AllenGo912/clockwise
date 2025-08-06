@@ -147,10 +147,10 @@ const char SETTINGS_PAGE[] PROGMEM = R""""(
         {
           title: "Enable Time Control",
           description: "Toggle whether the LED clock should follow a time-based schedule for display. When enabled, the display will turn on and off based on the set start and end times.",
-          formInput: "<input class='w3-check' type='checkbox' id='enableTimeControl' " + (settings.enabletimecontrol == '1' ? "checked" : "") + "><label for='enableTimeControl'> Enable</label>",
+          formInput: "<input class='w3-check' type='checkbox' id='timeControl' " + (settings.timecontrol == '1' ? "checked" : "") + "><label for='enableTimeControl'> Enable</label>",
           icon: "fa-cog",
-          save: "updatePreference('enableTimeControl', Number(enableTimeControl.checked)",
-          property: "enableTimeControl"
+          save: "updatePreference('timeControl', Number(timeControl.checked))",
+          property: "timeControl"
         },
         {
           title: "Display Start Time (Hour)",

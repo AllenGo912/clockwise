@@ -100,7 +100,18 @@ void automaticBrightControl()
 
 void automaticTimeControl()
 {
-  if (!ClockwiseParams::getInstance()->enableTimeControl) return;
+  //Serial.println(">> automaticTimeControl called");
+  if (!ClockwiseParams::getInstance()->timeControl)
+  {
+    //Serial.println(">> enableTimeControl is false, skipping");
+    // 主动恢复亮度为 displayBright（只执行一次）
+    uint8_t targetBrightness = ClockwiseParams::getInstance()->displayBright;
+    if (abs(currentBrightSlot - targetBrightness) >= 2 || targetBrightness == 0) {
+      dma_display->setBrightness8(targetBrightness);
+      currentBrightSlot = targetBrightness;
+    }
+    return;
+  }
 
   if (millis() - timeControlMillis > 3000) // 每3秒检查一次
   {

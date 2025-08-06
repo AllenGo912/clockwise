@@ -28,7 +28,7 @@ struct ClockwiseParams
     const char* const PREF_DISPLAY_ROTATION = "displayRotation";
     const char* const PREF_ACTIVE_HOUR_START = "activeHourStart";
     const char* const PREF_ACTIVE_HOUR_END = "activeHourEnd";
-    const char* const PREF_ENABLE_TIME_CONTROL = "enableTimeControl";
+    const char* const PREF_ENABLE_TIME_CONTROL = "timeControl";
 
     bool swapBlueGreen;
     bool use24hFormat;
@@ -47,11 +47,12 @@ struct ClockwiseParams
     uint8_t displayRotation;
     uint8_t activeHourStart;
     uint8_t activeHourEnd;
-    bool enableTimeControl;
+    bool timeControl;
 
 
     ClockwiseParams() {
-        preferences.begin("clockwise", false); 
+        preferences.begin(CW_PREF_DB_NAME, false);
+        load();
         //preferences.clear();
     }
 
@@ -80,7 +81,8 @@ struct ClockwiseParams
         preferences.putUInt(PREF_DISPLAY_ROTATION, displayRotation);
         preferences.putUInt(PREF_ACTIVE_HOUR_START, activeHourStart);
         preferences.putUInt(PREF_ACTIVE_HOUR_END, activeHourEnd);
-        preferences.putBool(PREF_ENABLE_TIME_CONTROL, enableTimeControl);
+        preferences.putBool(PREF_ENABLE_TIME_CONTROL, timeControl);
+        Serial.printf("[save] timeControl: %d\n", timeControl);
     }
 
     void load()
@@ -102,7 +104,7 @@ struct ClockwiseParams
         displayRotation = preferences.getUInt(PREF_DISPLAY_ROTATION, 0);
         activeHourStart = preferences.getUInt(PREF_ACTIVE_HOUR_START, 6);
         activeHourEnd = preferences.getUInt(PREF_ACTIVE_HOUR_END, 18);
-        enableTimeControl = preferences.getBool(PREF_ENABLE_TIME_CONTROL, true);
+        timeControl = preferences.getBool(PREF_ENABLE_TIME_CONTROL, true);
     }
 
 };

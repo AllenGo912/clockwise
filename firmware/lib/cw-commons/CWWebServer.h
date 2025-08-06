@@ -98,7 +98,7 @@ struct ClockwiseWebServer
       client.println("HTTP/1.0 204 No Content");
       force_restart = true;
     } else if (method == "POST" && path == "/set") {
-      ClockwiseParams::getInstance()->load();
+      //ClockwiseParams::getInstance()->load();
       //a baby seal has died due this ifs
       Serial.printf("Received key: %s, value: %s\n", key.c_str(), value.c_str()); // 打印 key 和 value
 
@@ -130,7 +130,8 @@ struct ClockwiseWebServer
       } else if (key == ClockwiseParams::getInstance()->PREF_DISPLAY_ROTATION) {
         ClockwiseParams::getInstance()->displayRotation = value.toInt();
       } else if (key == ClockwiseParams::getInstance()->PREF_ENABLE_TIME_CONTROL) {
-        ClockwiseParams::getInstance()->enableTimeControl = (value == "1");
+        Serial.printf("== 1: %hhd\n", (value == "1"));
+        ClockwiseParams::getInstance()->timeControl = (value == "1");
       } else if (key == ClockwiseParams::getInstance()->PREF_ACTIVE_HOUR_START) {
         ClockwiseParams::getInstance()->activeHourStart = value.toInt();
       } else if (key == ClockwiseParams::getInstance()->PREF_ACTIVE_HOUR_END) {
@@ -171,7 +172,7 @@ struct ClockwiseWebServer
     client.printf(HEADER_TEMPLATE_S, ClockwiseParams::getInstance()->PREF_CANVAS_SERVER, ClockwiseParams::getInstance()->canvasServer.c_str());
     client.printf(HEADER_TEMPLATE_S, ClockwiseParams::getInstance()->PREF_MANUAL_POSIX, ClockwiseParams::getInstance()->manualPosix.c_str());
     client.printf(HEADER_TEMPLATE_D, ClockwiseParams::getInstance()->PREF_DISPLAY_ROTATION, ClockwiseParams::getInstance()->displayRotation);
-    client.printf(HEADER_TEMPLATE_D, ClockwiseParams::getInstance()->PREF_ENABLE_TIME_CONTROL, ClockwiseParams::getInstance()->enableTimeControl);
+    client.printf(HEADER_TEMPLATE_D, ClockwiseParams::getInstance()->PREF_ENABLE_TIME_CONTROL, ClockwiseParams::getInstance()->timeControl);
     client.printf(HEADER_TEMPLATE_D, ClockwiseParams::getInstance()->PREF_ACTIVE_HOUR_START, ClockwiseParams::getInstance()->activeHourStart);
     client.printf(HEADER_TEMPLATE_D, ClockwiseParams::getInstance()->PREF_ACTIVE_HOUR_END, ClockwiseParams::getInstance()->activeHourEnd);
 
